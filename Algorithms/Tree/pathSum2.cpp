@@ -12,6 +12,7 @@
 
 class Solution {
 public:
+    // for space optimisation we pass diary by reference, otherwise we can just remove all pop backs for pass by value.
     void fun(TreeNode* root, int targetSum, int sum, vector<int>& diary, vector<vector<int>>& res) {
         if (root == nullptr)
             return;
@@ -21,10 +22,14 @@ public:
         if (root->left == nullptr && root->right == nullptr && sum == targetSum)
         {
             res.push_back(diary);
+            // addition to the previous version --- return command is the king. 
+            diary.pop_back();
+            return;
+            //
         }
         fun(root->left, targetSum, sum, diary, res);
         fun(root->right, targetSum, sum, diary, res);
-        diary.pop_back();
+        diary.pop_back(); // popping so if, if block didn't run!
         return;
     }
 
