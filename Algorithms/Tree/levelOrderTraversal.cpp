@@ -72,8 +72,10 @@ public:
                 TreeNode* temp = q.front();
                 q.pop(); 
                 currentLevel.push_back(temp->val);
-                if(temp->left) q.push(temp->left);
-                if(temp->right) q.push(temp->right);
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
             }
             res.push_back(currentLevel);
             // TODO:
