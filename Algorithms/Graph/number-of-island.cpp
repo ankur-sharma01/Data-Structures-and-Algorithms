@@ -37,7 +37,7 @@ public:
 
             if (valid(row, col, n, m) && grid[row][col] == '1' && vis[row][col] == 0)
             {
-                dfs(grid, n, m, row, col, vis);
+                dfs(grid, n, m, row, col, vis); // making every connected matrix's vis 1 so no duplicate count happens!!
             }
         }
     }

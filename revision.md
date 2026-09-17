@@ -33,4 +33,7 @@ LC 99
 LC 105
 LC 200
 LC 994
-GFG Undirected Graph Cycle
+GFG Undirected Graph Cycle and Directed graph cycle detection
+LC 785
+GFG KAHN'S ALGORITHM
+LC 130
