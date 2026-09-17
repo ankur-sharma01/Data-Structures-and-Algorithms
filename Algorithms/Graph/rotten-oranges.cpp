@@ -1,4 +1,4 @@
-// 994. Rotting Oranges
+// LC 994. Rotting Oranges
 // You are given an m x n grid where each cell can have one of three values:
 
 // 0 representing an empty cell,
@@ -32,6 +32,7 @@ public:
         int fresh = 0;
         int time = 0;
 
+        // pushing rotten oranges into the queue and counting fresh oranges:
         for (int i = 0; i < n; i++)
         {
             for (int j = 0; j < m; j++)
@@ -39,14 +40,15 @@ public:
                 if (grid[i][j] == 2)
                 {
                     q.push({i, j});
-                    grid[i][j] = 2; // making it rotten
-                } else if (grid[i][j] == 1)
+                }
+                else if (grid[i][j] == 1)
                 {
                     fresh++;
                 }
             }
         }
 
+        // main working loop:
         while (!q.empty() && fresh > 0)
         {
             time++;
@@ -72,9 +74,13 @@ public:
                 }
             }
         }
+
+        // outcome:
         if (fresh > 0)
             return -1;
 
         return time;
     }
 };
+
+//write all then prune design for database
