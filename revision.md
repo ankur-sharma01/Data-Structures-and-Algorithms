@@ -37,3 +37,6 @@ GFG Undirected Graph Cycle and Directed graph cycle detection
 LC 785
 GFG KAHN'S ALGORITHM
 LC 130
+DIJKSTRA
+LC 743
+LC 1631
