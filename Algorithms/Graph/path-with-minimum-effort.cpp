@@ -28,6 +28,7 @@ public:
         int x[4] = {1, -1, 0, 0};
         int y[4] = {0, 0, 1, -1};
         res[0][0] = 0;
+        // pq --> {wt, {row, col}}
         pq.push({0, {0,0}});
 
         while(!pq.empty())
