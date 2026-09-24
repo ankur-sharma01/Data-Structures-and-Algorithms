@@ -97,7 +97,7 @@ public:
 };
 
 // Approach 2:
-// using Dijkstra Algorithm!!
+// using Dijkstra Algorithm!! --> path with minimum effort
 class Solution {
 public:
     int swimInWater(vector<vector<int>>& grid) {
