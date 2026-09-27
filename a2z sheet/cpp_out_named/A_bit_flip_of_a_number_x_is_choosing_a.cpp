@@ -17,4 +17,8 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    
+};
 
