@@ -23,4 +23,46 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    /*
 
+    Bit = 1           Bit = 0             Bit = 1             Bit = 1
+                    (LSB of 13)         (LSB of 6)          (LSB of 3)          (LSB of 1)
+                    ───────────         ──────────          ──────────          ──────────
+    base:           3^1  =======>       3^2  =======>       3^4  =======>       3^8
+                        │                   │                   │                   │
+                        │ (Keep!)           │ (Ignore)          │ (Keep!)           │ (Keep!)
+                        ▼                   ▼                   ▼                   ▼
+    result:            3^1        x         1         x        3^4        x        3^8   =  3^13
+
+    */
+
+    long long mod = 1e9 + 7;
+    long long modPow(long long base, long long exp) {
+        long long result = 1;
+        base = base % mod;
+
+        while (exp > 0)
+        {
+            // Notice that every single power of 2 except the last one (2^0 = 1) is an EVEN number (2, 4, 8, 16...).Any combination of even numbers added together is always even.Therefore, the only thing that can make a binary number odd is if the 2^0 bit (the LSB) is set to 1. If LSB is 1 implies Number is ODD If LSB is 0 implies Number is EVEN.
+            if (exp & 1)
+                result = (result * base) % mod;
+
+            base = (base * base) % mod;
+            exp = exp >> 1;
+        }
+        return result;
+    }
+
+    int countGoodNumbers(long long n) {
+        // Indices: [0, 1, 2, 3, 4], 3 Evens (0, 2, 4), 2 Odds (1, 3).evenCount = (5 + 1) / 2 = 3, oddCount = 5 / 2 = 2
+        long long even = (n+1)/2;
+        long long odd = n/2;
+
+        long long evenPow = modPow(5, even);
+        long long oddPow = modPow(4, odd);
+
+        return (evenPow * oddPow) % mod;
+    }
+};

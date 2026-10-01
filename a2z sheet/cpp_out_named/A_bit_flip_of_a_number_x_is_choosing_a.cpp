@@ -19,6 +19,32 @@
 
 class Solution {
 public:
-    
+    int minBitFlips(int start, int goal) {
+        int count = 0;
+        int XORresult = start ^ goal;
+        
+        while(XORresult)
+        {
+            count = count + (XORresult & 1);
+            XORresult = XORresult >> 1;
+        }
+        return count;
+    }
 };
 
+
+// Kernighan's Algorithm: Each iteration removes the least significant bit that is set to 1.
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        int count = 0;
+        int XORresult = start ^ goal;
+        
+        while(XORresult)
+        {
+            XORresult = XORresult * (XORresult - 1);
+            count++;
+        }
+        return count;
+    }
+};

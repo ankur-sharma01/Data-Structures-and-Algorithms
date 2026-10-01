@@ -24,3 +24,52 @@
 // ---- write your solution below ----
 
 
+// Approach: Pattern to be noticed here is binary search for finding out the max capacity such that we can ship packages exactly within given days.
+
+class Solution {
+public:
+    int fun(vector<int>& weights, int guess) {
+        int daysTaken = 1, load = 0;
+        for (int i = 0; i < weights.size(); i++)
+        {
+            if (weights[i] + load <= guess)
+            {
+                load += weights[i];
+            } else
+            {
+                daysTaken++;
+                load = weights[i];
+            }
+        }
+        return daysTaken;
+    }
+
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size();
+        int maxElement = 0;
+        int totalSum = 0;
+        for (int i = 0; i < n; i++)
+        {
+            totalSum += weights[i];
+            maxElement = max(maxElement, weights[i]);
+        }
+        
+        int low = maxElement;
+        int high = totalSum;
+        int minCapacity = 0;
+
+        while (low <= high)
+        {
+            int guess = low + (high-low)/2;
+            if (fun(weights, guess) <= days)
+            {
+                minCapacity = guess;
+                high = guess - 1;
+            } else
+            {
+                low = guess + 1;
+            }
+        }
+        return minCapacity;
+    }
+};
