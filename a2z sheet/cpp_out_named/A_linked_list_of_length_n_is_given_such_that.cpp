@@ -37,9 +37,79 @@ public:
 };
 */
 
+
+// Approach one can have a hashmap which can be used to store the linked list and copy from there.
+// Approach second can work without a hashmap and what we can do is store the linkelist between two nodes and modifying accordingly.
+
+// Approach 1:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        
+        if (!head)
+            return nullptr;
+
+        unordered_map<Node*, Node*> mp;
+
+        Node* curr = head;
+        while (curr)
+        {
+            mp[curr] = new Node(curr->val);
+            curr = curr->next;
+        }
+
+        curr = head;
+        while (curr)
+        {
+            mp[curr]->next = mp[curr->next];
+            mp[curr]-random = mp[curr->random];
+            curr = curr->next;
+        }
+        return mp[head];
+    }
+};
+
+// Approach 2:
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head)
+            return nullptr;
+
+        Node* curr = head;
+
+        // inserting nodes between orignal nodes:
+        while (curr)
+        {
+            Node* clone = new Node(curr->val);
+            clone->next = curr->next;
+            curr->next = clone;
+            curr = clone->next;
+        }
+
+        // assigning random pointers for cloned nodes:
+        curr = head;
+        while (curr)
+        {
+            if (curr->random)
+                curr->next->random = curr->random->next;
+
+            curr = curr->next->next;
+        }
+
+        // seperate the orignal from the cloned ones:
+        curr = head;
+        Node* cloneHead = head->next;
+        Node* cloneCurr = cloneHead;
+
+        while (curr)
+        {
+            curr->next = curr->next->next;
+            if (cloneCurr->next)
+                cloneCurr->next = cloneCurr->next->next;
+
+            curr = curr->next;
+            cloneCurr = cloneCurr->next;
+        }
+        return cloneHead;
     }
 };

@@ -18,4 +18,56 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> st;
 
+        for (char c : s)
+        {
+            if (c == '(')
+            {
+                st.push(c);
+            }
+            else
+            {
+                if (st.empty())
+                {
+                    st.push(c);
+                }
+                else if (st.top() == '(')
+                {
+                    st.pop();
+                }
+                else
+                {
+                    st.push(c);
+                }
+            }
+        }
+        return st.size();
+    }
+};
+
+// OR: Shorter form of the same code
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> st;
+
+        for (char c : s) {
+            if (c == ')') {
+                if (!st.empty() && st.top() == '(') {
+                    st.pop(); // Matched!
+                } else {
+                    st.push(c); // Unmatched ')'
+                }
+            } else {
+                st.push(c); // Always push '('
+            }
+        }
+
+        return st.size();
+    }
+};
