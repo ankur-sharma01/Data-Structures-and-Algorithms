@@ -24,4 +24,60 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        
+    }
+};
 
+
+// solution for find peak element in a array: LC 162
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0, high = n - 1;
+        int res = 0;
+
+        while (low < high)
+        {
+            int guess = low + (high - low)/2;
+            if (nums[guess] < nums[guess+1])
+            {
+                low = guess + 1;
+            }
+            else
+            {
+                high = guess;
+            }
+        }
+        return high; // or return left as they will surely point to same index.
+    }
+};
+
+
+
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0;
+        int right = nums.size() - 1;
+        
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            
+            // Compare mid with its right neighbor
+            if (nums[mid] < nums[mid + 1]) {
+                // Slope is rising to the right -> Peak MUST be on the right
+                left = mid + 1;
+            } else {
+                // Slope is falling to the right -> Peak is at mid or to the left
+                right = mid;
+            }
+        }
+        
+        // When left == right, we are guaranteed to be at a peak element index
+        return left;
+    }
+};
