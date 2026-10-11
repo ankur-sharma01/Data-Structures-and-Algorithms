@@ -27,6 +27,12 @@
 // ---- write your solution below ----
 
 // logic for this question is that we can use linear search for the top to bottom i.e. row & binary search for left to right i.e. colounms.
+/*
+    1. Initialize `left = 0` and `right = n - 1`, then compute `midCol = left + (right - left) / 2`.
+    2. Scan down column `midCol` to find `maxRow` where `mat[maxRow][midCol]` is the maximum, satisfying vertical dominance.
+    3. Check horizontal neighbors: `leftVal` at `midCol - 1` and `rightVal` at `midCol + 1` (using `-1` for out-of-bounds edges).
+    4. If `currentVal > leftVal && currentVal > rightVal`, return `{maxRow, midCol}`; else if `currentVal < rightVal`, set `left = midCol + 1`, else set `right = midCol - 1`.
+*/
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
@@ -43,7 +49,7 @@ public:
             {
                 if (mat[i][midCol] > mat[maxRow][midCol])
                 {
-                    maxRow = r;
+                    maxRow = i;
                 }
             }
 
@@ -56,14 +62,14 @@ public:
             }
             else if (rightBigger)
             {
-                left = midCol + 1;
+                low = midCol + 1;
             }
             else
             {
-                right = midCol - 1;
+                high = midCol - 1;
             }
         }
-        return {};
+        return {-1, -1};
     }
 };
 
@@ -74,7 +80,7 @@ public:
     int findPeakElement(vector<int>& nums) {
         int n = nums.size();
         int low = 0, high = n - 1;
-        int res = 0;
+        // int res = 0; --> no use as we need to return the index and not the value from the outside array!
 
         while (low < high)
         {

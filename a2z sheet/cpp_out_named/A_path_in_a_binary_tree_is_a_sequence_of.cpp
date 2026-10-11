@@ -11,6 +11,7 @@
 
 // ---- write your solution below ----
 
+// logic --> we were getting the max path of the left and right.
 class Solution {
 public:
     int sum = INT_MIN;
