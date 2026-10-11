@@ -22,12 +22,48 @@
  * Find it: https://www.google.com/search?q=A%20peak%20element%20in%20a%202D%20grid%20is%20an%20element%20that%20is%20strictly%20greater%20than%20all%20of%20its
  */
 
+// logic: The Golden RuleAggressive Cows $\rightarrow$ Search space is Possible Answers (numbers/distances).Find Peak Element $\rightarrow$ Search space is Array Indices (positions).Why we use low = guess + 1 in both (The Difference)1. Aggressive Cows (Binary Search on Answer)What guess means: A tested distance (e.g., "Can we place cows 5 units apart?").Why we use low = guess + 1:guess worked! It is a valid answer.But we want to find an even bigger/better distance.We save guess in res, then throw it away and look higher: low = guess + 1.2. Find Peak Element (Slope-Based Search)What guess means: An array index.Why we use low = guess + 1:guess failed! The slope is going uphill to the right (nums[guess] < nums[guess + 1]), meaning guess is definitely not a peak.We throw it away and search the right side: low = guess + 1.
+
 // ---- write your solution below ----
 
+// logic for this question is that we can use linear search for the top to bottom i.e. row & binary search for left to right i.e. colounms.
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        
+        int m = mat.size();
+        int n = mat[0].size();
+
+        int low = 0, high = n-1;
+
+        while (low <= high)
+        {
+            int midCol = low + (high - low)/2;
+            int maxRow = 0;
+            for (int i = 0; i < m; i++)
+            {
+                if (mat[i][midCol] > mat[maxRow][midCol])
+                {
+                    maxRow = r;
+                }
+            }
+
+            bool leftBigger = (midCol > 0 && mat[maxRow][midCol - 1] > mat[maxRow][midCol]);
+            bool rightBigger = (midCol < n-1 && mat[maxRow][midCol + 1] > mat[maxRow][midCol]);
+
+            if (!leftBigger && !rightBigger)
+            {
+                return {maxRow, midCol};
+            }
+            else if (rightBigger)
+            {
+                left = midCol + 1;
+            }
+            else
+            {
+                right = midCol - 1;
+            }
+        }
+        return {};
     }
 };
 
