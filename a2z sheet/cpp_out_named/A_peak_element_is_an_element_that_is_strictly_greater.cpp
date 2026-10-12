@@ -24,4 +24,26 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0, high = n - 1;
+        int res = 0;
 
+        while (low < high)
+        {
+            int guess = low + (high - low)/2;
+
+            if (nums[guess] >= nums[guess + 1])
+            {
+                high = guess;
+            }
+            else
+            {
+                low = guess + 1;
+            }
+        }
+        return high;
+    }
+};

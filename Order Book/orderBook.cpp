@@ -44,15 +44,18 @@ using LevelInfos = std::vector<LevelInfo>;
 class OrderbookLevelInfos
 {
 public:
+    // constructor:
     OrderbookLevelInfos(const LevelInfos& bids, const LevelInfos& asks)
+        // member initializer list:
         : bids_{ bids }
         , asks_{ asks }
     { }
-
+    // will return us the bids and asks list when ever called
     const LevelInfos& GetBids() const { return bids_; }
     const LevelInfos& GetAsks() const { return asks_; }
 
 private:
+    //  if i call getasks i will get the list but i cannot access the bids list directly as it is explicitely mentioned inside the private section.
     LevelInfos bids_;
     LevelInfos asks_;
 };
