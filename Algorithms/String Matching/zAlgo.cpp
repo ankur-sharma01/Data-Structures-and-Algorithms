@@ -17,7 +17,7 @@ vector<int> calculateZBruteForce(string s) {
     }
     return z;
 }
-
+and i am here to just make things
 
 // optimal approach:
 vector<int> calculateZoptimal(string s) {

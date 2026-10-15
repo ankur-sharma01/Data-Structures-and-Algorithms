@@ -17,4 +17,5 @@
 
 // ---- write your solution below ----
 
-
+// greedy approach:
+// sort the inputs and use while loop and find if the condition for assigning cookie fits, if yes increase both otherwise increase only one!

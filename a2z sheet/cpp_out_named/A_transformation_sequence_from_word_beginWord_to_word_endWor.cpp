@@ -13,4 +13,56 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        int n = wordList.size();
+        unordered_map<string, int> f;
 
+        for (int i = 0; i < n; i++)
+        {
+            f[wordList[i]] = 1;
+        }
+        if (f.find(endWord) == f.end())
+            return 0;
+
+        queue<pair<string,int>> q;
+
+        q.push({beginWord, 1});
+        // bfs traversal: check for each char in a string if it matches by traversing from a to z:
+        while (!q.empty())
+        {
+            pair<string,int> p = q.front();
+            q.pop();
+            string s = p.first;
+            int steps = p.second;
+
+            if (s == endWord)
+                return steps;
+
+            for (int i = 0; i < s.size(); i++)
+            {
+                char c = s[i];
+
+                for (char k = 'a'; k <= 'z'; k++)
+                {
+                    if (k == c)
+                        continue;
+
+                    s[i] = k;
+
+                    if (s == endWord)
+                        return (steps + 1);
+
+                    if (f.find(s) != f.end())
+                    {
+                        q.push({s, steps+1});
+                        f.erase(s);
+                    }
+                }
+                s[i] = c;
+            }
+        }
+        return 0;
+    }
+};

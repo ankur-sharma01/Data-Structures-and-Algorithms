@@ -21,4 +21,49 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    bool isValid(int r, int c, int n, int m) {
+        if (r >= 0 && r < n && c >= 0 && c < m)
+            return true;
 
+        return false;
+    }
+
+    void dfs(vector<vector<int>>& image, int r, int c, int orignalColor, int color) {
+        image[r][c] = color;
+
+        // directional arrays for 4-way movement:
+        int x[4] = {-1, 1, 0, 0};
+        int y[4] = {0, 0, -1, 1};
+
+        int n = image.size();
+        int m = image[0].size();
+
+        // traversing all the neighbours:
+        for (int i = 0; i < 4; i++)
+        {
+            int rows = r + x[i];
+            int cols = c + y[i];
+            
+            // boundary and visited checks:
+            if (isValid(rows, cols, n, m) && image[rows][cols] == orignalColor)
+            {
+                dfs(image, rows, cols, orignalColor, color);
+            }
+        }
+    }
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int orignalColor = image[sr][sc];
+
+        // edge case: if the starting point is already painted:
+        if (orignalColor == color)
+        {
+            return image;
+        }
+
+        dfs(image, sr, sc, orignalColor, color);
+        return image;
+    }
+};

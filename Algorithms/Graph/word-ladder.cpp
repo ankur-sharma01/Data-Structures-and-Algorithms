@@ -51,6 +51,7 @@ public:
                         continue;
 
                     s[k] = j;
+                    
                     if (f.find(s) != f.end()) // no early exit condition as we have to calculate hops taken and true or false!
                     {
                         q.push({s, val+1});

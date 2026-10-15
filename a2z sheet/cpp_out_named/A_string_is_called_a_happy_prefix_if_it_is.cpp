@@ -15,6 +15,7 @@
 
 // ---- write your solution below ----
 
+// optimal solution using kmp algo.
 class Solution {
 public:
     string longestPrefix(string s) {
