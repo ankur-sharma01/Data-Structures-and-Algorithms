@@ -24,4 +24,50 @@
 
 // ---- write your solution below ----
 
+class Solution{
+public:
+    void solve(int r, int c, vector<vector<int>>& m, int n, string path, vector<string>& ans, vector<vector<int>>& vis) {
 
+        // base case: reached!
+        if (r == n-1 && c == n-1)
+        {
+            ans.push_back(path);
+            return;
+        }
+
+        string movDir = "DLRU";
+        int x[4] = {1, 0, 0, -1};
+        int y[4] = {0, -1, 1, 0};
+
+        vis[r][c] = 1;
+
+        for (int i = 0; i < n; i++)
+        {
+            int row = r + x[i];
+            int col = c + y[i];
+
+            if (row >= 0 && row < n && col >= 0 && col < n && m[row][col] == 1 && vis[r][c] != 1)
+            {
+                path.push_back[movDir[i]];
+                solve(0, 0, m, n, path, ans, vis);
+                path.pop_back();
+            }
+        }
+        vis[r][c] = 0;
+        return;
+    }
+
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        vector<string> ans;
+
+        // base case:
+        if (m[0][0] == 0 || m[n-1][n-1] == 0)
+            return ans;
+        
+        vector<vector<int>> vis(n, vector<int>(n, 0));
+        string path = "";
+
+        solve(0, 0, m, n, path, ans, vis);
+        return ans;
+    }
+}
