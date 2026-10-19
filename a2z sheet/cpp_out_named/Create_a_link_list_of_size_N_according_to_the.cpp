@@ -40,5 +40,48 @@
  */
 
 // ---- write your solution below ----
+class Solution{    
+public:
+    Node* insertAtBegin(Node* head, int val) {
+        Node* newNode = new Node(val);
+        newNode->next = head;
+        return newNode;
+    }
 
+    Node* insertAtEnd(Node* head, int val)
+    {
+        Node* newNode = new Node(val);
 
+        if (head == nullptr)
+            return newNode;
+
+        Node* curr = head;
+        while (curr->next != nullptr)
+        {
+            curr = curr->next;
+        }
+
+        curr->next = newNode;
+        return head;
+    }
+
+    Node* constructLL(vector<int>& arr) {
+        Node* head = nullptr;
+
+        for (int i = 0; i < arr.size(); i++)
+        {
+            int val = arr[i];
+            int indicator = arr[i+1];
+
+            if (indicator == 0)
+            {
+                head = insertAtBegin(head, val);
+            }
+            else
+            {
+                head = insertAtEnd(head, val);
+            }
+        }
+        return head;
+    }
+};
