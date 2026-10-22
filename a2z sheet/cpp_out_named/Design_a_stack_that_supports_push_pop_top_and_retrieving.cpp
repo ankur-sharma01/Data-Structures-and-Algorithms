@@ -15,4 +15,39 @@
 
 // ---- write your solution below ----
 
+class MinStack {
+public:
 
+    stack<int> st;
+    stack<int> minSt; // maintains history of the minimum value for later popping and providing min after that!!!
+    MinStack() {
+        
+    }
+    
+    void push(int value) {
+        st.push(value);
+
+        if (minSt.empty() || value <= minSt.top())
+        {
+            minSt.push(value);
+        }
+    }
+    
+    void pop() {
+        // always check before popping from main stack!!!
+        if (!st.empty() && st.top() == minSt.top())
+        {
+            minSt.pop();
+        }
+
+        st.pop();
+    }
+    
+    int top() {
+        return st.top();
+    }
+    
+    int getMin() {
+        return minSt.top();
+    }
+};

@@ -20,83 +20,65 @@
 // lRUCache.get(3);    // return 3
 // lRUCache.get(4);    // return 4
 
+#include <vector>
+#include <unordered_map>
+#include <climits>
+
 class LFUCache {
 public:
-    vector<int> usage;
-    unordered_map<int, int> store;
-    int max_capacity = 0;
+    int max_capacity;
+    std::unordered_map<int, int> store; // key -> value
+    std::unordered_map<int, int> freq;  // key -> frequency count
+    
     LFUCache(int capacity) {
         max_capacity = capacity;
-
-        // resize the usage vector: it is dynamic but only when we use push and pop. we aren't using that here so we need to declare it before hand.
-        usage.resize(10005, -1);
-        // can also declare at top: used this as this was something new.
     }
     
     int get(int key) {
-        // vector<int> usage;
-
-        if(store.find(key) != store.end()) {
-            // usage[key]++;
-            // return key ---- wrong
-            if(usage[key] == -1) {
-                usage[key] = 1;
-            } else {
-                usage[key]++;
-            }
-            return store[key];
-        } else {
+        // If key doesn't exist, return -1
+        if (store.find(key) == store.end()) {
             return -1;
         }
         
+        // Bump frequency on access
+        freq[key]++;
+        return store[key];
     }
     
     void put(int key, int value) {
+        if (max_capacity <= 0) return;
 
-        // unordered_map<int, int> store;
-
-        // vector<int> store(10, -1);
-
-
-        // store.push({value}) // push can't let us push at a specific space in a vector.
-
-        // store.insert(store.begin() + key, value);
+        // If key already exists, update value and bump frequency
+        if (store.find(key) != store.end()) {
+            store[key] = value;
+            freq[key]++;
+            return;
+        }
         
-        // if(store.size() > max_capacity) --- no eviction for already present element and we are checking size and capacity not indexes so we also need to look for equal sign.
-        if(store.size() >= max_capacity && store.find(key) == store.end()) {
-
-            // evict the least used, find using usage vector.
+        // If at capacity, we need to evict the least frequently used item
+        if (store.size() >= max_capacity) {
             int least_visited = INT_MAX;
-            int indexOfLeastVisit = 0;
+            int keyToEvict = -1;
 
-            for(int i = 0; i < usage.size(); i++) {
-                if (usage[i] == -1) continue;
+            // Search through all keys to find the one with the lowest frequency
+            for (auto& pair : freq) {
+                int k = pair.first;
+                int f = pair.second;
                 
-                // least_visited = min(least_visited, usage[i]); --- this won't give the index needed so we will just use block for this.
-                
-                if(least_visited > usage[i]) {
-                    indexOfLeastVisit = i;
-                    least_visited = usage[i]; // updating to check in the comparision part.
+                if (f < least_visited) {
+                    least_visited = f;
+                    keyToEvict = k;
                 }
-
-                // return least_visited; ---- this will exit in the first iteration itself
             }
 
-            // usage[indexOfLeastVisit]--; ---- restart completely.
-            usage[indexOfLeastVisit] = -1;
-            store.erase(indexOfLeastVisit);
-            // store.erase(least_visited)
+            // Evict the least frequent key
+            store.erase(keyToEvict);
+            freq.erase(keyToEvict);
         }
 
-        // store.push({key, value}); --- no push used in a hashmap.
+        // Insert new key-value pair with frequency starting at 1
         store[key] = value;
-        // usage[key]++;
-        if(usage[key] == -1) {
-            usage[key] = 1;
-        } else {
-            usage[key]++;
-        }
-
+        freq[key] = 1;
     }
 };
 

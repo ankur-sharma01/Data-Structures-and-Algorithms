@@ -22,17 +22,79 @@
 
 class LRUCache {
 private:
+    struct Node{
+        int key;
+        int val;
+        Node* next;
+        Node* prev;
+        // initializer
+        Node(int k, int v) : key(k), val(v), prev(nullptr), next(nullptr) {}
+    };
+
+    int cap;
+
+    unordered_map<int, Node*> cacheMap;
+
+    Node* dummyHead;
+    Node* dummyTail;
+
+    void remove(Node* node) {
+        Node* prevNode = node->prev;
+        Node* nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+
+    void insertToFront(Node* node) {
+        Node* nextNode = dummyHead->next;
+        dummyHead->next = node;
+        node->prev = dummyHead;
+        node->next = nextNode;
+        nextNode->prev = node;
+    }
 
 public:
     LRUCache(int capacity) {
-        
+        cap = capacity;
+        dummyHead = new Node(0, 0);
+        dummyTail = new Node(0, 0);
+        // bridging is an important thing to do: it is absolutely critical! Skipping that step would cause your program to crash immediately on the very first put or get operation.
+        dummyHead->next = dummyTail;
+        dummyTail->prev = dummyHead;
     }
     
     int get(int key) {
-        
+        if (cacheMap.find(key) == cacheMap.end())
+            return -1;
+
+        Node* node = cacheMap[key];
+        remove(node);
+        insertToFront(node);
+
+        return node->val;
     }
     
     void put(int key, int value) {
-        
+        if (cacheMap.find(key) != cacheMap.end())
+        {
+            Node* node = cacheMap[key];
+            node->val = value;
+            remove(node);
+            insertToFront(node);
+            return;
+        }
+
+        if (cacheMap.size() == cap)
+        {
+            Node* lru = dummyTail->prev;
+            remove(lru);
+            cacheMap.erase(lru->key);
+            delete lru;
+        }
+
+        // create new node and add it to front:
+        Node* newNode = new Node(key, value);
+        cacheMap[key] = newNode;
+        insertToFront(newNode);
     }
 };
