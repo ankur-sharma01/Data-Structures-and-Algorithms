@@ -20,4 +20,32 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    int maximumPoints(vector<vector<int>>& mat) {
+        // code here
+        int n = mat.size();
+        if (n == 0) return 0;
 
+        // points for day 0:
+        int prev_0 = mat[0][0];
+        int prev_1 = mat[0][1];
+        int prev_2 = mat[0][2];
+
+        Day 0 points: [Running: 8, Fighting: 7, Learning: 1]
+        Day 1 points: [Running: 9, Fighting: 2, Learning: 1]
+
+        for (int i = 1; i < n; i++)
+        {
+            curr_0 = mat[i][0] + max(prev_1, prev_2);
+            curr_1 = mat[i][1] + max(prev_0, prev_2);
+            curr_2 = mat[i][2] + max(prev_1, prev_2);
+
+            prev_0 = curr_0;
+            prev_1 = curr_1;
+            prev_2 = curr_2;
+        }
+
+        return max({prev_0, prev_1, prev_2});
+    }
+};

@@ -10,4 +10,27 @@
 
 // ---- write your solution below ----
 
+int solve(int i, int n, const std::vector<int>& heights, std::vector<int>& dp) {
+    // base case: last step don't need to jump further!!!
+    if (i == (n-1)) return 0;
+    if (i >= n) return INT_MAX;
 
+    if (dp[i] != -1) return dp[i];
+
+    // jumpOne & jumpTwo are two cost calculator:
+    int jumpOne = INT_MAX, jumpTwo = INT_MAX;
+    int jumpOne = abs(height[i+1] - height[i]) + solve(i+1, n, height, dp);
+    int jumpTwo = abs(height[i+2] - height[i]) + solve(i+2, n, height, dp);
+
+    return dp[i] = min(jumpOne, jumpTwo);
+}
+
+int minCost(int height[], int n) {
+    // code here
+    int n = height.size();
+    if (n <= 0) return 0;
+
+    vector<int> dp(n, -1);
+    
+    return solve(0, n, height, dp);
+}
