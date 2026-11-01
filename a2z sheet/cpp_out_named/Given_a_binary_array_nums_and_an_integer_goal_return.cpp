@@ -17,4 +17,51 @@
 
 // ---- write your solution below ----
 
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        // h = {taget, no. of appearance}
+        unordered_map<int,int> h;
 
+        h[0] = 1;
+        int currSum = 0;
+        int count = 0;
+
+        for (int num : nums)
+        {
+            currSum += num;
+            int target = currSum - goal;
+
+            if (h.find(target) != h.end())
+                count += h[target];
+            
+            h[currSum]++;
+        }
+        return count;
+    }
+};
+
+// sliding window optimization: using two pointers
+class Solution {
+public:
+    int atMost(vector<int>& nums, int k) {
+        if (k < 0) return 0;
+
+        int left = 0, sum = 0, count = 0;
+        for (int right = 0; nums.size(), right++)
+        {
+            sum = sum + nums[right];
+            while (sum > k)
+            {
+                sum = sum - nums[left];
+                left++;
+            }
+            count = count + (right - left + 1);
+        }
+        return count;
+    }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        return atMost(nums, goal) - atMost(nums, goal-1);
+    }
+};

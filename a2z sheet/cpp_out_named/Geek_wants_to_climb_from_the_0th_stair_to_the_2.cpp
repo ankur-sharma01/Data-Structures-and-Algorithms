@@ -31,6 +31,56 @@ int minCost(int height[], int n) {
     if (n <= 0) return 0;
 
     vector<int> dp(n, -1);
-    
+
     return solve(0, n, height, dp);
+}
+
+
+// another solution:
+int solve(int i, vector<int>& height, vector<int>& dp) {
+    if (i == 0) return 0;
+
+    if (dp[i] != -1) return dp[i];
+
+    int jumpOne = solve(i-1, height, dp) + abs(height[i] - height[i-1]);
+
+    if (i >= 2)
+    {
+        int jumpTwo = solve(i-2, height, dp) + abs(height[i] - height[i-2]);
+    }
+
+    return dp[i] = min(jumpOne, jumpTwo);
+}
+
+int minCost(int height[], int n) {
+    int n = height.size();
+    if (n <= 0) return 0;
+    vector<int> dp(n, -1);
+
+    return solve(n-1, height, dp);
+}
+
+
+// another code: tabulation
+int minCost(int height[], int n) {
+    int n = height.size();
+
+    if (n <= 0) return 0;
+    vector<int> dp(n, -1);
+
+    dp[0] = 0;
+
+    for (int i = 1, i < n; i++)
+    {
+        int jumpOne = dp[i-1] + abs(height[i] - height[i-1]);
+
+        int jumpTwo = INT_MAX;
+        if (i >= 2)
+        {
+            jumpTwo = dp[i-2] + abs(height[i] - height[i-2]);
+        }
+
+        dp[i] = min(jumpOne, jumpTwo);
+    }
+    return dp[n-1];
 }

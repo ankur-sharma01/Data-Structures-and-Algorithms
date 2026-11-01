@@ -21,4 +21,16 @@
 
 // ---- write your solution below ----
 
+void performBitOperations(unsigned int num, int i) {
+    // get bit:
+    int getBit = (num >> (i-1)) & 1;
 
+    // set bit:
+    //         create mask = (1U << (i-1))
+    int setBit = num | (1U << (i-1));
+
+    // clear bit: using not
+    int clearBit = num & ~(1U << (i-1));
+
+    cout << getBit << " " << setBit << " " << clearBit;
+}

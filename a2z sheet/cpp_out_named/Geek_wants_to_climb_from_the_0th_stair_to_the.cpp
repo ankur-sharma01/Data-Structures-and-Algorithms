@@ -23,5 +23,64 @@
  */
 
 // ---- write your solution below ----
+class Solution {    
+public:
+    int solve(int i, int k, vector<int>& heights, vector<int>& dp) {
+        if (i == 0) return 0;
+
+        if (dp[i] == -1) return dp[i];
+        int minEnergy = INT_MAX;
+
+        for (int j = 1; j <= k; j++)
+        {
+            if (i-j > 0)
+            {
+                int jumpCost = solve(i-j, k, heights, dp) + abs(heights[i] - heights[i-j]);
+                minEnergy = min(minEnergy, jumpCost);
+            }
+        }
+
+        return dp[i] = minEnergy;
+    }
+
+    int minimizeCost(int k, std::vector<int>& heights) {
+        int n = heights.size();
+
+        if (n <= 0) return 0;
+        vector<int> dp(n, -1);
+
+        return solve (n-1, k, heights, dp);
+    }
+};
 
 
+
+// tabulation code:
+class Solution {
+public:
+    int minimizeCost(int k, std::vector<int>& heights) {
+        int n = heights.size();
+        if (n <= 1) return 0;
+        // If n = 0 (empty array): There are no stairs at all, so the geek doesn't need to (and can't) go anywhere.
+        // If n = 1 (single stair): The geek starts at stair 0, and the destination is also n - 1 (1 - 1 = 0). Because the start and the finish are the same stair, the geek is already at the destination without taking a single jump.
+
+        vector<int> dp(n, -1);
+        dp[0] = 0;
+
+        for (int i = 1; i < n; i++)
+        {
+            for (int j = 1; j < k; j++)
+            {
+                if (i-j > 0)
+                {
+                    int jumpCost = dp[i-j] + abs(heights[i] - heights[i-j]);
+                    // In the recursive memoized version, we needed a separate local variable called minEnergy because every recursive function call (solve(i)) was its own isolated workspace on the computer stack. It needed a temporary variable to figure out the answer before saving it into dp[i].
+                    // In the tabulation version, we don't need a separate minEnergy variable because dp[i] itself does the exact same job!
+                    dp[i] = min(dp[i], jumpCost);
+                    // The inner loop tests multiple different incoming paths to reach stair i (e.g., jumping from i - 1, i - 2, all the way up to i - k).
+                }
+            }
+        }
+        return dp[n-1];;
+    }
+};
